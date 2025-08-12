@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useBookSearch } from "@/hooks/use-books";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/empty-states";
 import { Pagination } from "@/components/pagination";
 import { Navbar } from "@/components/navbar";
 
-export default function Home() {
+function HomeContent() {
   const { getParam, updateUrl, getAllParams } = useUrlState();
   const { favorites } = useFavorites();
 
@@ -228,5 +228,24 @@ export default function Home() {
         )}
       </div>
     </div>
+  );
+}
+
+// Loading fallback component for Suspense
+function HomePageFallback() {
+  return (
+    <div className="min-h-screen bg-app-primary">
+      <div className="container mx-auto px-4 py-8">
+        <BookGridSkeleton count={8} />
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<HomePageFallback />}>
+      <HomeContent />
+    </Suspense>
   );
 }
