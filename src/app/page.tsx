@@ -120,7 +120,7 @@ function HomeContent() {
 
   if (error) {
     return (
-      <div className=" bg-app-gradient">
+      <div className=" bg-app-gradient ">
         <Navbar
           showFavorites={showFavorites}
           onShowFavoritesChange={setShowFavorites}
@@ -160,7 +160,7 @@ function HomeContent() {
   }
 
   return (
-    <div className=" bg-app-primary relative min-h-screen">
+    <div className=" bg-app-primary relative min-h-screen ">
       <Navbar
         showFavorites={showFavorites}
         onShowFavoritesChange={setShowFavorites}

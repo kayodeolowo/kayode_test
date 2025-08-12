@@ -1,6 +1,6 @@
 "use client";
 
-import { SORT_OPTIONS, SUBJECTS } from "@/app/json/data";
+import { SORT_OPTIONS, SUBJECTS } from "@/json/data";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
 interface SearchFiltersProps {

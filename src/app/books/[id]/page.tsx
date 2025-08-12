@@ -13,7 +13,6 @@ import {
   FaCalendarAlt,
   FaUser,
 } from "react-icons/fa";
-import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 

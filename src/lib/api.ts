@@ -62,7 +62,7 @@ export async function getBookDetail(id: string, signal?: AbortSignal): Promise<B
   const response = await fetch(`${BASE_URL}/volumes/${id}`, { signal });
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch book detail: ${response.statusText}`);
+    throw new Error(`Failed to fetch book detail ${response.statusText}`);
   }
 
   const data: GoogleBooksItem = await response.json();
