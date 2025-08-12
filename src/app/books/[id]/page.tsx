@@ -22,9 +22,10 @@ export default function BookDetailPage() {
   const bookId = params.id as string;
   const { data: book, isLoading, error, refetch } = useBookDetail(bookId);
   const { toggleFavorite, isFavorite } = useFavorites();
-  
+
   // State for navbar (not used in detail page but required for navbar component)
   const [showFavorites, setShowFavorites] = useState(false);
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   if (isLoading) {
     return <BookDetailSkeleton />;
@@ -33,19 +34,23 @@ export default function BookDetailPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-app-gradient">
-        <Navbar 
-          showFavorites={showFavorites} 
-          onShowFavoritesChange={setShowFavorites} 
+        <Navbar
+          showFavorites={showFavorites}
+          onShowFavoritesChange={setShowFavorites}
         />
-        
+
         {/* Subtle dot pattern background */}
         <div className="absolute inset-0 opacity-20 top-16">
-          <div className="absolute inset-0 bg-app-secondary" style={{
-            backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
-            backgroundSize: '30px 30px'
-          }}></div>
+          <div
+            className="absolute inset-0 bg-app-secondary"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)",
+              backgroundSize: "30px 30px",
+            }}
+          ></div>
         </div>
-        
+
         <div className="relative container mx-auto px-4 py-8">
           <Link
             href="/"
@@ -83,19 +88,23 @@ export default function BookDetailPage() {
 
   return (
     <div className="min-h-screen bg-app-gradient">
-      <Navbar 
-        showFavorites={showFavorites} 
-        onShowFavoritesChange={setShowFavorites} 
+      <Navbar
+        showFavorites={showFavorites}
+        onShowFavoritesChange={setShowFavorites}
       />
-      
+
       {/* Subtle dot pattern background */}
       <div className="absolute inset-0 opacity-20 top-16">
-        <div className="absolute inset-0 bg-app-secondary" style={{
-          backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
-          backgroundSize: '30px 30px'
-        }}></div>
+        <div
+          className="absolute inset-0 bg-app-secondary"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)",
+            backgroundSize: "30px 30px",
+          }}
+        ></div>
       </div>
-      
+
       <div className="relative container mx-auto px-4 py-8">
         <Link
           href="/"
@@ -155,30 +164,26 @@ export default function BookDetailPage() {
                       {book.authors && book.authors.length > 0 && (
                         <div className="flex items-center gap-2 text-xl text-blue-200">
                           <FaUser className="text-blue-400" />
-                          <span>by {book.authors.join(", ")}</span>
+                          <span>By {book.authors.join(", ")}</span>
                         </div>
                       )}
                     </div>
 
                     <button
+                      type="button"
                       onClick={handleFavoriteClick}
-                      className="flex items-center gap-2 px-4 py-2  transition-all duration-200 hover:scale-105"
-                      style={{
-                        borderColor: isBookFavorite
-                          ? "var(--accent-red)"
-                          : "var(--border-primary)",
-                        backgroundColor: isBookFavorite
-                          ? "#ef4444"
-                          : "transparent",
-                        color: isBookFavorite
-                          ? "white"
-                          : "var(--text-secondary)",
-                      }}
+                      aria-pressed={isBookFavorite}
+                      aria-label={
+                        isBookFavorite
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }
+                      className="p-2 cursor-pointer rounded-full hover:bg-app-secondary/40 transition-colors duration-200"
                     >
                       {isBookFavorite ? (
-                        <FaHeart className="w-5 h-5" />
+                        <FaHeart className="w-6 h-6 text-red-500" />
                       ) : (
-                        <FaRegHeart className="w-5 h-5" />
+                        <FaRegHeart className="w-6 h-6 text-app-secondary" />
                       )}
                     </button>
                   </div>
@@ -253,20 +258,39 @@ export default function BookDetailPage() {
                       <h3 className="font-semibold text-white mb-3">
                         Categories
                       </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {book.categories.slice(0, 6).map((category, index) => (
+
+                      <div className="flex items-center flex-wrap gap-2">
+                        {(showAllCategories
+                          ? book.categories
+                          : book.categories.slice(0, 6)
+                        ).map((category, index) => (
                           <span
-                            key={index}
-                            className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-blue-500/30 transition-colors cursor-pointer"
+                            key={`${category}-${index}`}
+                            className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-2 rounded-full text-xs font-medium hover:bg-blue-500/30 transition-colors cursor-pointer max-w-[240px] truncate"
+                            title={category}
                           >
                             {category.replace("Fiction / ", "")}
                           </span>
                         ))}
+
                         {book.categories.length > 6 && (
-                          <span className="text-blue-300 text-sm py-1.5 px-2">
-                            +{book.categories.length - 6} more
-                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setShowAllCategories((v) => !v)}
+                            className="text-blue-300 text-xs cursor-pointer px-3 py-2 rounded-full border border-transparent hover:border-blue-500/30 hover:bg-blue-500/10 transition-colors"
+                            aria-expanded={showAllCategories}
+                            aria-controls="all-categories"
+                          >
+                            {showAllCategories
+                              ? "Show less"
+                              : `+${book.categories.length - 6} more`}
+                          </button>
                         )}
+                      </div>
+
+                      {/* Hidden container to satisfy aria-controls if you want stricter a11y */}
+                      <div id="all-categories" className="sr-only">
+                        {book.categories.join(", ")}
                       </div>
                     </div>
                   )}

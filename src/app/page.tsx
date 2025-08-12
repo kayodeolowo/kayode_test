@@ -1,79 +1,88 @@
+"use client";
 
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useBookSearch } from '@/hooks/use-books';
-import { useFavorites } from '@/hooks/use-favorites';
-import { useDebounce } from '@/hooks/use-debounce';
-import { useUrlState } from '@/hooks/use-url-state';
-import { BookCard } from '@/components/book-card';
-import { SearchFilters } from '@/components/search-filters';
-import { BookGridSkeleton } from '@/components/loading-skeleton';
-import { EmptyState } from '@/components/empty-states';
-import { Pagination } from '@/components/pagination';
-import { Navbar } from '@/components/navbar';
-
+import { useState, useEffect } from "react";
+import { useBookSearch } from "@/hooks/use-books";
+import { useFavorites } from "@/hooks/use-favorites";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useUrlState } from "@/hooks/use-url-state";
+import { BookCard } from "@/components/book-card";
+import { SearchFilters } from "@/components/search-filters";
+import { BookGridSkeleton } from "@/components/loading-skeleton";
+import { EmptyState } from "@/components/empty-states";
+import { Pagination } from "@/components/pagination";
+import { Navbar } from "@/components/navbar";
 
 export default function Home() {
   const { getParam, updateUrl, getAllParams } = useUrlState();
   const { favorites } = useFavorites();
-  
+
   // Initialize state from URL (source of truth)
-  const [searchQuery, setSearchQuery] = useState(getParam('q') || '');
-  const [sortBy, setSortBy] = useState(getParam('sort') || 'relevance');
-  const [subject, setSubject] = useState(getParam('subject') || '');
-  const [showFavorites, setShowFavorites] = useState(getParam('favorites') === 'true');
-  const [currentPage, setCurrentPage] = useState(parseInt(getParam('page') || '1', 10));
+  const [searchQuery, setSearchQuery] = useState(getParam("q") || "");
+  const [sortBy, setSortBy] = useState(getParam("sort") || "relevance");
+  const [subject, setSubject] = useState(getParam("subject") || "");
+  const [showFavorites, setShowFavorites] = useState(
+    getParam("favorites") === "true"
+  );
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(getParam("page") || "1", 10)
+  );
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize state from URL on mount
   useEffect(() => {
     if (!isInitialized) {
       const urlParams = getAllParams();
-      setSearchQuery(urlParams.q || '');
-      setSortBy(urlParams.sort || 'relevance');
-      setSubject(urlParams.subject || '');
-      setShowFavorites(urlParams.favorites === 'true');
-      setCurrentPage(parseInt(urlParams.page || '1', 10));
+      setSearchQuery(urlParams.q || "");
+      setSortBy(urlParams.sort || "relevance");
+      setSubject(urlParams.subject || "");
+      setShowFavorites(urlParams.favorites === "true");
+      setCurrentPage(parseInt(urlParams.page || "1", 10));
       setIsInitialized(true);
     }
   }, [getAllParams, isInitialized]);
-  
-  const debouncedQuery = useDebounce(searchQuery, 400);
-  const effectiveQuery = debouncedQuery || 'popular books';
 
-  const {
-    data,
-    isLoading,
-    error,
-    refetch,
-  } = useBookSearch({
+  const debouncedQuery = useDebounce(searchQuery, 400);
+  const effectiveQuery = debouncedQuery || "popular books";
+
+  const { data, isLoading, error, refetch } = useBookSearch({
     query: effectiveQuery,
     page: currentPage,
     limit: 20,
-    sort: sortBy as 'relevance' | 'rating' | 'new' | 'old',
+    sort: sortBy as "relevance" | "rating" | "new" | "old",
     subject: subject || undefined,
   });
 
   // Update URL when state changes (with debouncing for search)
   useEffect(() => {
     if (!isInitialized) return;
-    
-    // Use replace for search queries (to avoid cluttering history)
-    const isSearchChange = searchQuery !== getParam('q');
-    
-    updateUrl({
-      q: searchQuery || null,
-      sort: sortBy !== 'relevance' ? sortBy : null,
-      subject: subject || null,
-      favorites: showFavorites ? 'true' : null,
-      page: currentPage > 1 ? currentPage.toString() : null,
-    }, { replace: isSearchChange });
-  }, [searchQuery, sortBy, subject, showFavorites, currentPage, updateUrl, isInitialized, getParam]);
 
-  const allBooks = data?.items?.map(item => item.volumeInfo) || [];
+    // Use replace for search queries (to avoid cluttering history)
+    const isSearchChange = searchQuery !== getParam("q");
+
+    updateUrl(
+      {
+        q: searchQuery || null,
+        sort: sortBy !== "relevance" ? sortBy : null,
+        subject: subject || null,
+        favorites: showFavorites ? "true" : null,
+        page: currentPage > 1 ? currentPage.toString() : null,
+      },
+      { replace: isSearchChange }
+    );
+  }, [
+    searchQuery,
+    sortBy,
+    subject,
+    showFavorites,
+    currentPage,
+    updateUrl,
+    isInitialized,
+    getParam,
+  ]);
+
+  const allBooks = data?.items?.map((item) => item.volumeInfo) || [];
   const displayBooks = showFavorites ? favorites : allBooks;
-  
+
   // Calculate pagination
   const totalBooks = data?.totalItems || 0;
   const booksPerPage = 20;
@@ -82,7 +91,7 @@ export default function Home() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Reset page when search changes
@@ -93,16 +102,17 @@ export default function Home() {
   }, [debouncedQuery, sortBy, subject, showFavorites, isInitialized]);
 
   const handleClearFilters = () => {
-    setSearchQuery('');
-    setSortBy('relevance');
-    setSubject('');
+    setSearchQuery("");
+    setSortBy("relevance");
+    setSubject("");
     setShowFavorites(false);
     setCurrentPage(1);
   };
 
-  const hasActiveFilters = sortBy !== 'relevance' || subject || showFavorites;
-  const hasSearchQuery = debouncedQuery.trim() !== '' && debouncedQuery !== 'popular books';
-  
+  const hasActiveFilters = sortBy !== "relevance" || subject || showFavorites;
+  const hasSearchQuery =
+    debouncedQuery.trim() !== "" && debouncedQuery !== "popular books";
+
   // Don't render anything until initialized (prevents hydration mismatch)
   if (!isInitialized) {
     return <div className="min-h-screen bg-app-primary" />;
@@ -111,19 +121,23 @@ export default function Home() {
   if (error) {
     return (
       <div className="min-h-screen bg-app-gradient">
-        <Navbar 
-          showFavorites={showFavorites} 
-          onShowFavoritesChange={setShowFavorites} 
+        <Navbar
+          showFavorites={showFavorites}
+          onShowFavoritesChange={setShowFavorites}
         />
-        
+
         {/* Subtle dot pattern background */}
         <div className="absolute inset-0 opacity-20 top-16">
-          <div className="absolute inset-0 bg-app-secondary" style={{
-            backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
-            backgroundSize: '30px 30px'
-          }}></div>
+          <div
+            className="absolute inset-0 bg-app-secondary"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)",
+              backgroundSize: "30px 30px",
+            }}
+          ></div>
         </div>
-        
+
         <div className="relative container mx-auto px-4 py-8">
           {!showFavorites && (
             <SearchFilters
@@ -139,10 +153,7 @@ export default function Home() {
             />
           )}
 
-          <EmptyState 
-            type="error" 
-            onTryAgain={() => refetch()}
-          />
+          <EmptyState type="error" onTryAgain={() => refetch()} />
         </div>
       </div>
     );
@@ -150,21 +161,24 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-app-gradient">
-      <Navbar 
-        showFavorites={showFavorites} 
-        onShowFavoritesChange={setShowFavorites} 
+      <Navbar
+        showFavorites={showFavorites}
+        onShowFavoritesChange={setShowFavorites}
       />
-      
+
       {/* Subtle dot pattern background */}
       <div className="absolute inset-0 opacity-20 top-16">
-        <div className="absolute inset-0 bg-app-secondary" style={{
-          backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
-          backgroundSize: '30px 30px'
-        }}></div>
+        <div
+          className="absolute inset-0 bg-app-secondary"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)",
+            backgroundSize: "30px 30px",
+          }}
+        ></div>
       </div>
 
       <div className="relative container mx-auto px-4 py-8">
-
         {!showFavorites && (
           <SearchFilters
             searchQuery={searchQuery}
@@ -185,17 +199,14 @@ export default function Home() {
         ) : displayBooks.length === 0 && !isLoading && !hasSearchQuery ? (
           <EmptyState type="no-search" />
         ) : displayBooks.length === 0 && !isLoading && hasSearchQuery ? (
-          <EmptyState 
-            type="no-results" 
+          <EmptyState
+            type="no-results"
             query={debouncedQuery}
             onClearFilters={hasActiveFilters ? handleClearFilters : undefined}
           />
         ) : (
           <>
-            <div className="mb-4  flex items-center justify-center text-sm text-app-blue-secondary ">
-              
-              
-            </div>
+            <div className="mb-4  flex items-center justify-center text-sm text-app-blue-secondary "></div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
               {displayBooks.map((book) => (

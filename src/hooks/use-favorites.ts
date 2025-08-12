@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Book } from '@/types';
-import { getFavorites, toggleFavorite as toggleFavoriteUtil, isFavorite } from '@/lib/favorites';
+import { getFavorites, toggleFavorite as toggleFavoriteUtil } from '@/lib/favorites';
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<Book[]>([]);
