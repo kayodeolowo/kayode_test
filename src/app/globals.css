@@ -1,8 +1,72 @@
 @import "tailwindcss";
 
 :root {
+  /* Legacy variables */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #11141c;
+
+  /* BookVerse Color System */
+  /* Background Colors */
+  --bg-primary: #0f172a;           /* slate-900 */
+  --bg-secondary: #1e293b;         /* slate-800 */
+  --bg-tertiary: #334155;          /* slate-700 */
+  --bg-quaternary: #64748b;        /* slate-600 */
+  
+  --bg-blue-primary: #1e3a8a;      /* blue-800 */
+  --bg-blue-secondary: #1d4ed8;    /* blue-700 */
+  --bg-indigo-primary: #312e81;    /* indigo-800 */
+  --bg-gradient-start: #0f172a;    /* slate-900 */
+  --bg-gradient-middle: #1e3a8a;   /* blue-900 */
+  --bg-gradient-end: #312e81;      /* indigo-950 */
+  
+  /* Pattern Colors */
+  --pattern-dot: #475569;          /* slate-600 - for dot patterns */
+  
+  /* Text Colors */
+  --text-primary: #ffffff;         /* white */
+  --text-secondary: #cbd5e1;       /* slate-300 */
+  --text-tertiary: #94a3b8;        /* slate-400 */
+  --text-muted: #64748b;           /* slate-500 */
+  
+  --text-blue-primary: #dbeafe;    /* blue-100 */
+  --text-blue-secondary: #bfdbfe;  /* blue-200 */
+  --text-blue-accent: #60a5fa;     /* blue-400 */
+  --text-cyan-accent: #22d3ee;     /* cyan-400 */
+  
+  /* Border Colors */
+  --border-primary: #64748b;       /* slate-500 */
+  --border-secondary: #475569;     /* slate-600 */
+  --border-tertiary: #334155;      /* slate-700 */
+  
+  /* Accent Colors */
+  --accent-blue: #3b82f6;          /* blue-500 */
+  --accent-cyan: #06b6d4;          /* cyan-500 */
+  --accent-indigo: #6366f1;        /* indigo-500 */
+  --accent-purple: #8b5cf6;        /* purple-500 */
+  --accent-green: #10b981;         /* emerald-500 */
+  --accent-yellow: #f59e0b;        /* amber-500 */
+  --accent-red: #ef4444;           /* red-500 */
+  --accent-pink: #ec4899;          /* pink-500 */
+  
+  /* Interactive States */
+  --hover-bg: #1e293b;            /* slate-800 */
+  --hover-border: #475569;         /* slate-600 */
+  --focus-ring: #22d3ee;           /* cyan-400 */
+  
+  /* Component Specific */
+  --card-bg: rgba(30, 41, 59, 0.9);    /* slate-800/90 */
+  --card-border: rgba(100, 116, 139, 0.5); /* slate-500/50 */
+  --glass-bg: rgba(30, 41, 59, 0.8);   /* backdrop blur effect */
+  
+  /* Status Colors */
+  --success: #059669;              /* emerald-600 */
+  --warning: #d97706;              /* amber-600 */
+  --error: #dc2626;                /* red-600 */
+  --info: #2563eb;                 /* blue-600 */
+  
+  /* Shadow Colors */
+  --shadow-primary: rgba(59, 130, 246, 0.15);  /* blue shadow */
+  --shadow-secondary: rgba(34, 211, 238, 0.1); /* cyan shadow */
 }
 
 @theme inline {
@@ -23,4 +87,81 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom utility classes using our color system */
+@utility bg-app-primary {
+  background-color: var(--bg-primary);
+}
+
+@utility bg-app-secondary {
+  background-color: var(--bg-secondary);
+}
+
+@utility bg-app-tertiary {
+  background-color: var(--bg-tertiary);
+}
+
+@utility bg-app-card {
+  background-color: var(--card-bg);
+}
+
+@utility border-app-primary {
+  border-color: var(--border-primary);
+}
+
+@utility border-app-secondary {
+  border-color: var(--border-secondary);
+}
+
+@utility border-app-tertiary {
+  border-color: var(--border-tertiary);
+}
+
+@utility border-app-card {
+  border-color: var(--card-border);
+}
+
+@utility text-app-primary {
+  color: var(--text-primary);
+}
+
+@utility text-app-secondary {
+  color: var(--text-secondary);
+}
+
+@utility text-app-tertiary {
+  color: var(--text-tertiary);
+}
+
+@utility text-app-muted {
+  color: var(--text-muted);
+}
+
+@utility text-app-blue {
+  color: var(--text-blue-primary);
+}
+
+@utility text-app-blue-secondary {
+  color: var(--text-blue-secondary);
+}
+
+@utility text-app-blue-accent {
+  color: var(--text-blue-accent);
+}
+
+@utility text-app-cyan-accent {
+  color: var(--text-cyan-accent);
+}
+
+@utility bg-app-gradient {
+  background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
+}
+
+@utility shadow-app-primary {
+  box-shadow: 0 10px 15px -3px var(--shadow-primary), 0 4px 6px -2px var(--shadow-primary);
+}
+
+@utility shadow-app-secondary {
+  box-shadow: 0 10px 15px -3px var(--shadow-secondary), 0 4px 6px -2px var(--shadow-secondary);
 }
