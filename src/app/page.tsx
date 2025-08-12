@@ -115,12 +115,12 @@ function HomeContent() {
 
   // Don't render anything until initialized (prevents hydration mismatch)
   if (!isInitialized) {
-    return <div className="min-h-screen bg-app-primary" />;
+    return <div className=" bg-app-primary" />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-app-gradient">
+      <div className=" bg-app-gradient">
         <Navbar
           showFavorites={showFavorites}
           onShowFavoritesChange={setShowFavorites}
@@ -160,7 +160,7 @@ function HomeContent() {
   }
 
   return (
-    <div className="min-h-screen bg-app-gradient">
+    <div className=" bg-app-primary relative min-h-screen">
       <Navbar
         showFavorites={showFavorites}
         onShowFavoritesChange={setShowFavorites}
@@ -234,7 +234,7 @@ function HomeContent() {
 // Loading fallback component for Suspense
 function HomePageFallback() {
   return (
-    <div className="min-h-screen bg-app-primary">
+    <div className=" bg-app-primary">
       <div className="container mx-auto px-4 py-8">
         <BookGridSkeleton count={8} />
       </div>

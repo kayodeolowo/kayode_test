@@ -16,7 +16,7 @@ export function ClientLayout({ children }: ClientLayoutProps) {
         showFavorites={showFavorites} 
         onShowFavoritesChange={setShowFavorites} 
       />
-      <main className="min-h-screen">
+      <main >
         {children}
       </main>
     </>

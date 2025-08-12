@@ -154,9 +154,7 @@ body {
   color: var(--text-cyan-accent);
 }
 
-@utility bg-app-gradient {
-  background: linear-gradient(to bottom right, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
-}
+
 
 @utility shadow-app-primary {
   box-shadow: 0 10px 15px -3px var(--shadow-primary), 0 4px 6px -2px var(--shadow-primary);

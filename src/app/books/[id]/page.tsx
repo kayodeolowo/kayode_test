@@ -15,14 +15,14 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export default function BookDetailPage() {
   const params = useParams();
   const bookId = params.id as string;
   const { data: book, isLoading, error, refetch } = useBookDetail(bookId);
   const { toggleFavorite, isFavorite } = useFavorites();
-
+  const router = useRouter();
   // State for navbar (not used in detail page but required for navbar component)
   const [showFavorites, setShowFavorites] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
@@ -31,9 +31,18 @@ export default function BookDetailPage() {
     return <BookDetailSkeleton />;
   }
 
+const handleBack = () => {
+  if (window.history.length > 1) {
+    router.back();
+  } else {
+    // Fallback if user opened detail page directly
+    router.push("/", { scroll: false });
+  }
+};
+
   if (error) {
     return (
-      <div className="min-h-screen bg-app-gradient">
+      <div className=" bg-app-gradient">
         <Navbar
           showFavorites={showFavorites}
           onShowFavoritesChange={setShowFavorites}
@@ -52,12 +61,12 @@ export default function BookDetailPage() {
         </div>
 
         <div className="relative container mx-auto px-4 py-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-6"
+          <button
+            onClick={handleBack}
+            className="inline-flex  cursor-pointer items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-6"
           >
-            <FaArrowLeft /> Back to Search
-          </Link>
+            <FaArrowLeft className="cursor-pointer text-xl" /> 
+          </button>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
               Book not found
@@ -87,7 +96,7 @@ export default function BookDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-app-gradient">
+    <div className="  bg-app-primary relative min-h-screen">
       <Navbar
         showFavorites={showFavorites}
         onShowFavoritesChange={setShowFavorites}
@@ -106,12 +115,12 @@ export default function BookDetailPage() {
       </div>
 
       <div className="relative container mx-auto px-4 py-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-6 transition-colors duration-200"
+        <p
+          onClick={handleBack}
+          className="inline-flex items-center cursor-pointer gap-2 text-cyan-400 hover:text-cyan-300 mb-6 transition-colors duration-200"
         >
-          <FaArrowLeft /> Back to Search
-        </Link>
+          <FaArrowLeft className="text-xl" /> 
+        </p>
 
         <div className="bg-app-card backdrop-blur-sm rounded-lg shadow-xl border border-app-card overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8">
