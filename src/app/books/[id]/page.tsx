@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useBookDetail } from "@/hooks/use-books";
 import { useFavorites } from "@/hooks/use-favorites";
 import { getCoverImageUrl } from "@/lib/api";
 import { BookDetailSkeleton } from "@/components/loading-skeleton";
+import { Navbar } from "@/components/navbar";
 import {
   FaHeart,
   FaRegHeart,
@@ -20,6 +22,9 @@ export default function BookDetailPage() {
   const bookId = params.id as string;
   const { data: book, isLoading, error, refetch } = useBookDetail(bookId);
   const { toggleFavorite, isFavorite } = useFavorites();
+  
+  // State for navbar (not used in detail page but required for navbar component)
+  const [showFavorites, setShowFavorites] = useState(false);
 
   if (isLoading) {
     return <BookDetailSkeleton />;
@@ -27,8 +32,20 @@ export default function BookDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-950">
-       
+      <div className="min-h-screen bg-app-gradient">
+        <Navbar 
+          showFavorites={showFavorites} 
+          onShowFavoritesChange={setShowFavorites} 
+        />
+        
+        {/* Subtle dot pattern background */}
+        <div className="absolute inset-0 opacity-20 top-16">
+          <div className="absolute inset-0 bg-app-secondary" style={{
+            backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
+            backgroundSize: '30px 30px'
+          }}></div>
+        </div>
+        
         <div className="relative container mx-auto px-4 py-8">
           <Link
             href="/"
@@ -65,8 +82,20 @@ export default function BookDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-950">
-     
+    <div className="min-h-screen bg-app-gradient">
+      <Navbar 
+        showFavorites={showFavorites} 
+        onShowFavoritesChange={setShowFavorites} 
+      />
+      
+      {/* Subtle dot pattern background */}
+      <div className="absolute inset-0 opacity-20 top-16">
+        <div className="absolute inset-0 bg-app-secondary" style={{
+          backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
+          backgroundSize: '30px 30px'
+        }}></div>
+      </div>
+      
       <div className="relative container mx-auto px-4 py-8">
         <Link
           href="/"

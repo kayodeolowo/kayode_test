@@ -27,8 +27,25 @@ export function BookGridSkeleton({ count = 8 }: { count?: number }) {
 export function BookDetailSkeleton() {
   return (
     <div className="min-h-screen bg-app-gradient">
+      {/* Navbar skeleton */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 backdrop-blur-md border-b border-white/20 shadow-lg">
+        <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500"></div>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-white/20 rounded-xl animate-pulse"></div>
+              <div>
+                <div className="h-5 w-24 bg-white/20 rounded animate-pulse mb-1"></div>
+                <div className="h-3 w-20 bg-white/10 rounded animate-pulse"></div>
+              </div>
+            </div>
+            <div className="w-20 h-8 bg-white/10 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      
       {/* Subtle dot pattern background */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 top-16">
         <div
           className="absolute inset-0 bg-app-secondary"
           style={{

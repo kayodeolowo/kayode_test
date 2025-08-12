@@ -11,6 +11,7 @@ import { SearchFilters } from '@/components/search-filters';
 import { BookGridSkeleton } from '@/components/loading-skeleton';
 import { EmptyState } from '@/components/empty-states';
 import { Pagination } from '@/components/pagination';
+import { Navbar } from '@/components/navbar';
 
 
 export default function Home() {
@@ -110,39 +111,33 @@ export default function Home() {
   if (error) {
     return (
       <div className="min-h-screen bg-app-gradient">
+        <Navbar 
+          showFavorites={showFavorites} 
+          onShowFavoritesChange={setShowFavorites} 
+        />
+        
         {/* Subtle dot pattern background */}
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-20 top-16">
           <div className="absolute inset-0 bg-app-secondary" style={{
             backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
             backgroundSize: '30px 30px'
           }}></div>
         </div>
         
-
         <div className="relative container mx-auto px-4 py-8">
-          <header className="text-center mb-12">
-            <div className="relative inline-block">
-              <h1 className="text-6xl font-black bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent mb-6">
-                BookVerse
-              </h1>
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full animate-pulse"></div>
-            </div>
-            <p className="text-xl text-app-blue font-medium max-w-2xl mx-auto leading-relaxed">
-              Discover extraordinary stories, explore infinite worlds, and find your next literary adventure
-            </p>
-          </header>
-          
-          <SearchFilters
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            sortBy={sortBy}
-            onSortChange={setSortBy}
-            subject={subject}
-            onSubjectChange={setSubject}
-            showFavorites={showFavorites}
-            onShowFavoritesChange={setShowFavorites}
-            isLoading={isLoading}
-          />
+          {!showFavorites && (
+            <SearchFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              subject={subject}
+              onSubjectChange={setSubject}
+              isLoading={isLoading}
+              hasActiveFilters={!!hasActiveFilters}
+              onClearFilters={handleClearFilters}
+            />
+          )}
 
           <EmptyState 
             type="error" 
@@ -155,45 +150,34 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-app-gradient">
+      <Navbar 
+        showFavorites={showFavorites} 
+        onShowFavoritesChange={setShowFavorites} 
+      />
+      
       {/* Subtle dot pattern background */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 top-16">
         <div className="absolute inset-0 bg-app-secondary" style={{
-          backgroundImage: 'radial-gradient(circle, #475569 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, var(--pattern-dot) 1px, transparent 1px)',
           backgroundSize: '30px 30px'
         }}></div>
       </div>
 
       <div className="relative container mx-auto px-4 py-8">
-        <header className="text-center mb-12">
-          <div className="relative inline-block">
-            <h1 className="text-6xl font-black bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent mb-6">
-              BookVerse
-            </h1>
-            <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full animate-pulse"></div>
-          </div>
-          <p className="text-xl text-app-blue font-medium max-w-2xl mx-auto leading-relaxed">
-            Discover extraordinary stories, explore infinite worlds, and find your next literary adventure
-          </p>
-          
-          {/* Decorative Elements */}
-          <div className="flex justify-center mt-8 space-x-8">
-            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-            <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce"></div>
-          </div>
-        </header>
 
-        <SearchFilters
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          sortBy={sortBy}
-          onSortChange={setSortBy}
-          subject={subject}
-          onSubjectChange={setSubject}
-          showFavorites={showFavorites}
-          onShowFavoritesChange={setShowFavorites}
-          isLoading={isLoading}
-        />
+        {!showFavorites && (
+          <SearchFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            subject={subject}
+            onSubjectChange={setSubject}
+            isLoading={isLoading}
+            hasActiveFilters={!!hasActiveFilters}
+            onClearFilters={handleClearFilters}
+          />
+        )}
 
         {/* Empty States */}
         {showFavorites && favorites.length === 0 ? (
@@ -208,30 +192,9 @@ export default function Home() {
           />
         ) : (
           <>
-            <div className="mb-4 text-sm text-app-blue-secondary flex justify-between items-center">
-              <span>
-                {showFavorites ? (
-                  `${favorites.length} favorite${favorites.length !== 1 ? 's' : ''}`
-                ) : totalBooks > 0 ? (
-                  <>
-                    {`${totalBooks.toLocaleString()} books found`}
-                    {totalPages > 1 && (
-                      <span className="ml-2 text-gray-500">
-                        (Page {currentPage} of {totalPages})
-                      </span>
-                    )}
-                  </>
-                ) : ''}
-              </span>
+            <div className="mb-4  flex items-center justify-center text-sm text-app-blue-secondary ">
               
-              {hasActiveFilters && !showFavorites && (
-                <button
-                  onClick={handleClearFilters}
-                  className="text-app-cyan-accent hover:text-cyan-300 text-sm font-medium transition-colors duration-200"
-                >
-                  Clear filters
-                </button>
-              )}
+              
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
