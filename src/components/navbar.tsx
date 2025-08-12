@@ -1,6 +1,6 @@
 'use client';
 
-import { FaHeart, FaHome, FaBook } from 'react-icons/fa';
+import { FaHeart, FaBook } from 'react-icons/fa';
 import { useFavorites } from '@/hooks/use-favorites';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

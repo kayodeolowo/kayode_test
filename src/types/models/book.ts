@@ -24,6 +24,4 @@ export interface SearchResponse {
   }>;
 }
 
-export interface BookDetail extends Book {
-  // Google Books API provides all details in the same structure
-}
+export type BookDetail = Book;
