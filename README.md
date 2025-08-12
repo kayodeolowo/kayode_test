@@ -41,12 +41,18 @@ A modern, responsive book discovery application built with Next.js 15 and the Go
    npm install
    ```
 
-3. **Start development server**
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory:
+   ```bash
+   NEXT_PUBLIC_BASE_URL=https://www.googleapis.com/books/v1
+   ```
+
+4. **Start development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Available Scripts
