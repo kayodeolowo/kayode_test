@@ -26,16 +26,16 @@ export function BookCard({ book }: BookCardProps) {
   return (
     <div className="group relative">
       <Link href={`/books/${bookId}`} className="block">
-        <div className="relative bg-app-card backdrop-blur-sm rounded-3xl overflow-hidden border border-app-card shadow-xl hover:shadow-2xl hover:shadow-app-primary transition-all duration-500 hover:-translate-y-2">
+        <div className="relative bg-app-card backdrop-blur-sm rounded-2xl overflow-hidden border border-app-card shadow-xl hover:shadow-2xl hover:shadow-app-primary transition-all duration-500 hover:-translate-y-2">
           {/* Book Cover */}
-          <div className="relative h-64 bg-gradient-to-br from-app-tertiary to-app-secondary">
+          <div className="relative h-40 bg-gradient-to-br from-app-tertiary to-app-secondary">
             {book.imageLinks && getCoverImageUrl(book.imageLinks, "large") ? (
               <Image
                 src={getCoverImageUrl(book.imageLinks, "large")}
                 alt={book.title}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                quality={90}
+                quality={100}
                 priority={false}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;

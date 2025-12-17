@@ -16,9 +16,8 @@ export function Navbar({ showFavorites, onShowFavoritesChange }: NavbarProps) {
   const isHomePage = pathname === '/';
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 backdrop-blur-md border-b border-white/20 shadow-lg">
-      {/* Colorful accent line */}
-      <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500"></div>
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 backdrop-blur-md border-b border-white/20 shadow-lg">
+      <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500"></div>
       
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -42,7 +41,7 @@ export function Navbar({ showFavorites, onShowFavoritesChange }: NavbarProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-black text-white group-hover:text-cyan-100 transition-colors duration-300">
-                BookVerse
+                Novasyra
               </span>
               <span className="text-xs text-blue-200 font-medium -mt-1">
                 Discover Stories
