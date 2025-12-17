@@ -16,7 +16,7 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Novasyra's Book Search",
+  title: "Novasyra",
   description: "Find exciting books to read",
 };
 
