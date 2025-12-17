@@ -1,6 +1,6 @@
 'use client';
 
-import { FaBook, FaStar, FaUsers, FaFire } from 'react-icons/fa';
+import { FaBook, FaStar, FaUsers} from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 export function HeroBanner() {
