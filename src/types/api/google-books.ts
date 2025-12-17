@@ -15,9 +15,28 @@ export interface GoogleBooksVolumeInfo {
   language?: string;
 }
 
+export interface BookAccessFormat {
+  isAvailable: boolean;
+  downloadLink?: string;
+  acsTokenLink?: string;
+}
+
+export interface BookAccessInfo {
+  country?: string;
+  viewability?: string;
+  embeddable?: boolean;
+  publicDomain?: boolean;
+  textToSpeechPermission?: string;
+  epub?: BookAccessFormat;
+  pdf?: BookAccessFormat;
+  webReaderLink?: string;
+  accessViewStatus?: string;
+}
+
 export interface GoogleBooksItem {
   id: string;
   volumeInfo: GoogleBooksVolumeInfo;
+  accessInfo?: BookAccessInfo;
 }
 
 export interface GoogleBooksSearchResponse {

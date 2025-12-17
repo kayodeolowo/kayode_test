@@ -16,10 +16,10 @@ export function Navbar({ showFavorites, onShowFavoritesChange }: NavbarProps) {
   const isHomePage = pathname === '/';
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 backdrop-blur-md border-b border-white/20 shadow-lg">
-      <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500"></div>
+    <nav className="sticky  top-0 z-50 bg-slate-950/95 ">
+  
       
-      <div className="container mx-auto px-4">
+      <div className="container py-4  pt-3 mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link 
@@ -65,8 +65,8 @@ export function Navbar({ showFavorites, onShowFavoritesChange }: NavbarProps) {
                 }}
                 className={`relative cursor-pointer flex items-center gap-3 px-6 py-2.5 rounded-full transition-all duration-300 font-medium backdrop-blur-sm border shadow-lg hover:shadow-xl ${
                   (isHomePage && showFavorites)
-                    ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white border-red-400/50 hover:from-red-600 hover:to-pink-600'
-                    : 'bg-white/15 hover:bg-white/25 text-white hover:text-pink-100 border-white/30 hover:border-pink-400/50'
+                    ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white border-blue-400/50 hover:from-blue-600 hover:to-blue-600'
+                    : 'bg-white/15 hover:bg-white/25 text-white hover:text-pink-100 border-white/30 hover:border-blue-400/50'
                 }`}
               >
                 <div className="relative ">

@@ -15,7 +15,7 @@ export function Footer() {
           </div>
           
           <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-            Designed and built by <span className="font-semibold text-blue-600 dark:text-blue-400">Kayode Olowo</span> • © 2025 Novasyra
+            Designed and built by <a href="https://kayodeolowo.dev/" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">Kayode Olowo</a> • © 2025 Novasyra
           </p>
           
           <div className="h-1 w-20 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 rounded-full"></div>

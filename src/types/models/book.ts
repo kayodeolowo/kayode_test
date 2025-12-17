@@ -1,4 +1,5 @@
 import { BookImageLinks, IndustryIdentifier } from './image';
+import { BookAccessInfo } from '../api/google-books';
 
 export interface Book {
   id: string;
@@ -14,6 +15,7 @@ export interface Book {
   industryIdentifiers?: IndustryIdentifier[];
   publisher?: string;
   language?: string;
+  accessInfo?: BookAccessInfo;
 }
 
 export interface SearchResponse {

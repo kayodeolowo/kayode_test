@@ -81,6 +81,7 @@ export async function getBookDetail(id: string, signal?: AbortSignal): Promise<B
     industryIdentifiers: data.volumeInfo?.industryIdentifiers || [],
     publisher: data.volumeInfo?.publisher,
     language: data.volumeInfo?.language,
+    accessInfo: data.accessInfo,
   };
 }
 

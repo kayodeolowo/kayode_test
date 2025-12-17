@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useBookDetail } from "@/hooks/use-books";
 import { useFavorites } from "@/hooks/use-favorites";
 import { getCoverImageUrl } from "@/lib/api";
@@ -12,9 +12,13 @@ import {
   FaArrowLeft,
   FaCalendarAlt,
   FaUser,
+  FaFilePdf,
+  FaBook,
+  FaExternalLinkAlt,
 } from "react-icons/fa";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { Footer } from "@/components/footer";
 
 export default function BookDetailPage() {
   const params = useParams();
@@ -22,9 +26,20 @@ export default function BookDetailPage() {
   const { data: book, isLoading, error, refetch } = useBookDetail(bookId);
   const { toggleFavorite, isFavorite } = useFavorites();
   const router = useRouter();
-  // State for navbar (not used in detail page but required for navbar component)
   const [showFavorites, setShowFavorites] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isDescriptionLong, setIsDescriptionLong] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const lineHeight = parseInt(window.getComputedStyle(descriptionRef.current).lineHeight);
+      const height = descriptionRef.current.scrollHeight;
+      const lines = height / lineHeight;
+      setIsDescriptionLong(lines > 4);
+    }
+  }, [book]);
 
   if (isLoading) {
     return <BookDetailSkeleton />;
@@ -309,7 +324,10 @@ const handleBack = () => {
                       Description
                     </h3>
                     <div
-                      className="text-blue-100 leading-relaxed prose prose-sm max-w-none"
+                      ref={descriptionRef}
+                      className={`text-blue-100 leading-relaxed prose prose-sm max-w-none transition-all duration-300 ${
+                        showFullDescription ? '' : 'line-clamp-4'
+                      }`}
                       dangerouslySetInnerHTML={{
                         __html: description
                           .replace(/<br\s*\/?>/gi, "<br/>")
@@ -319,13 +337,83 @@ const handleBack = () => {
                           .replace(/<\/i>/gi, "</em>"),
                       }}
                     />
+                    {isDescriptionLong && (
+                      <button
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="mt-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+                      >
+                        {showFullDescription ? 'Show less' : 'Read more'}
+                      </button>
+                    )}
                   </div>
+
+                  {/* Download/Access Options */}
+                  {book.accessInfo && (
+                    (book.accessInfo.pdf?.isAvailable && (book.accessInfo.pdf.downloadLink || book.accessInfo.pdf.acsTokenLink)) ||
+                    (book.accessInfo.epub?.isAvailable && (book.accessInfo.epub.downloadLink || book.accessInfo.epub.acsTokenLink)) ||
+                    book.accessInfo.webReaderLink
+                  ) && (
+                    <div className="mt-6">
+                      <h3 className="font-semibold text-white mb-3">
+                        Access Options
+                      </h3>
+                      <div className="flex flex-wrap gap-3">
+                        {book.accessInfo.pdf?.isAvailable && (book.accessInfo.pdf.downloadLink || book.accessInfo.pdf.acsTokenLink) && (
+                          <a
+                            href={book.accessInfo.pdf.downloadLink || book.accessInfo.pdf.acsTokenLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
+                          >
+                            <FaFilePdf className="text-lg" />
+                            <span>PDF</span>
+                            <FaExternalLinkAlt className="text-xs" />
+                          </a>
+                        )}
+                        
+                        {book.accessInfo.epub?.isAvailable && (book.accessInfo.epub.downloadLink || book.accessInfo.epub.acsTokenLink) && (
+                          <a
+                            href={book.accessInfo.epub.downloadLink || book.accessInfo.epub.acsTokenLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
+                          >
+                            <FaBook className="text-lg" />
+                            <span>EPUB</span>
+                            <FaExternalLinkAlt className="text-xs" />
+                          </a>
+                        )}
+                        
+                        {!book.accessInfo.pdf?.isAvailable && !book.accessInfo.epub?.isAvailable && book.accessInfo.webReaderLink && (
+                          <a
+                            href={book.accessInfo.webReaderLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
+                          >
+                            <FaBook className="text-lg" />
+                            <span>Play Books</span>
+                            <FaExternalLinkAlt className="text-xs" />
+                          </a>
+                        )}
+                      </div>
+                      
+                      {book.accessInfo.publicDomain && (
+                        <p className="text-sm text-green-400 mt-3 flex items-center gap-2">
+                          <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
+                          This book is in the public domain
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 }

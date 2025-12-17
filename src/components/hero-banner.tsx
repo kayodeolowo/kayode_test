@@ -18,9 +18,14 @@ export function HeroBanner() {
 
   return (
     <div className="relative overflow-hidden mb-12">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/10 to-cyan-600/10 rounded-3xl"></div>
+      <div 
+        className="absolute inset-0 rounded-3xl bg-cover bg-center bg-no-repeat opacity-50"
+        style={{ backgroundImage: 'url(/bookbg.jpg)' }}
+      ></div>
       
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-indigo-600/30 to-cyan-600/30 rounded-3xl"></div>
+      
+      <div className="absolute inset-0 opacity-20">
         <div className="absolute top-10 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
         <div className="absolute top-20 right-10 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
@@ -28,10 +33,10 @@ export function HeroBanner() {
 
       <div className="relative px-8 py-16 md:py-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-full mb-6 backdrop-blur-sm">
+          {/* <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-full mb-6 backdrop-blur-sm">
             <FaFire className="text-orange-500 animate-pulse" />
             <span className="text-sm font-semibold text-orange-600 dark:text-orange-400">Trending Now</span>
-          </div>
+          </div> */}
 
           <h1 className={`text-4xl md:text-6xl font-black mb-6 transition-all duration-1000 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -45,7 +50,7 @@ export function HeroBanner() {
             </span>
           </h1>
 
-          <p className={`text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
+          <p className={`text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto transition-all duration-1000 delay-200 ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}>
             Explore millions of books across every genre. Find bestsellers, hidden gems, and personalized recommendations.
