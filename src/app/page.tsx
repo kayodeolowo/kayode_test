@@ -11,6 +11,8 @@ import { BookGridSkeleton } from "@/components/loading-skeleton";
 import { EmptyState } from "@/components/empty-states";
 import { Pagination } from "@/components/pagination";
 import { Navbar } from "@/components/navbar";
+import { HeroBanner } from "@/components/hero-banner";
+import { Footer } from "@/components/footer";
 
 function HomeContent() {
   const { getParam, updateUrl, getAllParams } = useUrlState();
@@ -179,6 +181,10 @@ function HomeContent() {
       </div>
 
       <div className="relative container mx-auto px-4 py-8">
+        {!showFavorites && !hasSearchQuery && (
+          <HeroBanner />
+        )}
+        
         {!showFavorites && (
           <SearchFilters
             searchQuery={searchQuery}
@@ -227,6 +233,8 @@ function HomeContent() {
           </>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }
