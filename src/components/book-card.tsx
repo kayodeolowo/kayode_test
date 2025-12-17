@@ -24,7 +24,7 @@ export function BookCard({ book }: BookCardProps) {
   const bookId = book.id;
 
   return (
-    <div className="group relative">
+    <div className="group w-[20rem] sm:w-auto max-sm:mx-auto relative">
       <Link href={`/books/${bookId}`} className="block">
         <div className="relative bg-app-card backdrop-blur-sm rounded-2xl overflow-hidden border border-app-card shadow-xl hover:shadow-2xl hover:shadow-app-primary transition-all duration-500 hover:-translate-y-2">
           {/* Book Cover */}

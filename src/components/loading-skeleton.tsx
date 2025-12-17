@@ -1,7 +1,7 @@
 export function BookCardSkeleton() {
   return (
     <div className="bg-app-card backdrop-blur-sm rounded-3xl overflow-hidden border border-app-card shadow-xl animate-pulse">
-      <div className="w-full h-64 bg-app-tertiary"></div>
+      <div className="w-full h-40 bg-app-tertiary"></div>
       <div className="p-6">
         <div className="h-6 bg-app-tertiary rounded mb-3"></div>
         <div className="h-4 bg-app-tertiary rounded mb-4 w-3/4"></div>
