@@ -14,11 +14,42 @@ export function BookCardSkeleton() {
   );
 }
 
-export function BookGridSkeleton({ count = 8 }: { count?: number }) {
+// Columns rendered at each Tailwind breakpoint (must match the grid classes below).
+// `hidden`/`block` are spelled out as literals so Tailwind's scanner generates them
+// (it can't see dynamically concatenated class names).
+const GRID_COLUMNS: { cols: number; hidden: string; block: string }[] = [
+  { cols: 1, hidden: "hidden", block: "block" }, // base
+  { cols: 2, hidden: "sm:hidden", block: "sm:block" },
+  { cols: 3, hidden: "md:hidden", block: "md:block" },
+  { cols: 4, hidden: "lg:hidden", block: "lg:block" },
+  { cols: 5, hidden: "xl:hidden", block: "xl:block" },
+];
+
+// Builds responsive visibility classes so a skeleton tile only shows when it sits
+// in a complete row at that breakpoint — avoids a ragged trailing row on wide screens.
+function tileVisibilityClasses(index: number, count: number): string {
+  const classes: string[] = [];
+  let prevVisible = true;
+
+  for (const { cols, hidden, block } of GRID_COLUMNS) {
+    const completeRowItems = Math.floor(count / cols) * cols;
+    const visible = index < completeRowItems;
+    if (visible !== prevVisible) {
+      classes.push(visible ? block : hidden);
+    }
+    prevVisible = visible;
+  }
+
+  return classes.join(" ");
+}
+
+export function BookGridSkeleton({ count = 20 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 mb-12">
       {Array.from({ length: count }).map((_, index) => (
-        <BookCardSkeleton key={index} />
+        <div key={index} className={tileVisibilityClasses(index, count)}>
+          <BookCardSkeleton />
+        </div>
       ))}
     </div>
   );

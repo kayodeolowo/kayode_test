@@ -220,7 +220,7 @@ function HomeContent() {
               ))}
             </div>
 
-            {isLoading && <BookGridSkeleton count={8} />}
+            {isLoading && <BookGridSkeleton />}
 
             {!showFavorites && !isLoading && (
               <Pagination
@@ -244,7 +244,7 @@ function HomePageFallback() {
   return (
     <div className=" bg-app-primary">
       <div className="container mx-auto px-4 py-8">
-        <BookGridSkeleton count={8} />
+        <BookGridSkeleton />
       </div>
     </div>
   );
