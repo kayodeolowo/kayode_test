@@ -1,6 +1,8 @@
 import { SearchResponse, BookDetail, SearchParams, GoogleBooksSearchResponse, GoogleBooksItem, BookImageLinks } from '@/types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.googleapis.com/books/v1';
+// Calls go through our own server proxy (/api/books) so the Google Books API key
+// stays server-side and is never exposed to the browser.
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || '/api/books';
 
 // Log the base URL being used (only in development)
 if (process.env.NODE_ENV === 'development') {
